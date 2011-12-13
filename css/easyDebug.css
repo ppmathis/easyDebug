@@ -48,7 +48,7 @@
 }
 .easyDebug.console.logEntry {
 	/* Generic attributes */
-	height: 20px; line-height: 20px;
+	line-height: 20px;
 	color: #444444; background-color: #EEEEEE; border-bottom: 1px solid #CCCCCC;
 	-webkit-user-select: text; -khtml-user-select: text; -moz-user-select: text; -o-user-select: text; user-select: text;
 	padding-left: 22px;

@@ -1,7 +1,7 @@
 <?php
 	/*
 	--------------------------------------------------------------------------
-	-- easyDebug v1.1 beta
+	-- easyDebug v1.1.2 beta
 	-- © 2011 P. Mathis - pmathis@snapserv.net
 	--------------------------------------------------------------------------
 	-- License info (CC BY-NC-SA 3.0)
@@ -36,7 +36,7 @@
 	$debug->add('Boolsches Zeugs', true);
 	$debug->add('Array', array(0 => 'huhu', 1 => 'haha', 2 => 'schlüssel', 3 => 4));
 	$debug->add('Der Debugger selbst...', $debug);
-	$debug->log('Testeintrag in der Log');
+	$debug->log('Testeintrag in der Logs');
 	$debug->warning('Achtung.... Da ist etwas ziemlich kritisch!');
 	$debug->error('E-PIG FAIL!');
 	$debug->show();

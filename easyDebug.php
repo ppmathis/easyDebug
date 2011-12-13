@@ -1,7 +1,7 @@
 <?php
 	/*
 	--------------------------------------------------------------------------
-	-- easyDebug v1.1 beta
+	-- easyDebug v1.1.2 beta
 	-- © 2011 P. Mathis - pmathis@snapserv.net
 	--------------------------------------------------------------------------
 	-- License info (CC BY-NC-SA 3.0)
@@ -54,7 +54,7 @@
 				'Data' => json_encode($varData)
 			);
 			
-			// Array to big?
+			// Array too big?
 			if(count($this->actualData) % self::compressionRate == 0) {
 				$serialized = serialize($this->actualData);
 				$this->compressedData[] = gzcompress($serialized, 9);
@@ -75,7 +75,7 @@
 				'Data' => $logText
 			);
 			
-			// Array to big?
+			// Array too big?
 			if(count($this->logData) % self::compressionRate == 0) {
 				$serialized = serialize($this->logData);
 				$this->compressedLog[] = gzcompress($serialized, 9);
@@ -180,7 +180,7 @@
 		
 		final public function show() {
 			// Create syslog
-			$this->syslog('info', 'easyDebug 1.1 beta');
+			$this->syslog('info', 'easyDebug v1.1.2 beta');
 			$this->syslog('info', 'PHP version: ' . phpversion());
 			$this->syslog('info', 'Detected memory limit: ' . $this->memoryLimit);
 			$this->syslog('info', 'Peak memory usage: ' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'M');
@@ -189,7 +189,7 @@
 			echo '<div class="easyDebug button" id="easyDebug_button" onClick="easyDebug_toggle();">easyDebug</div>';
 			// Create debugger menu
 			echo '
-<div class="easyDebug window" id="easyDebug_window" style="width: ' . self::width . 'px; height: ' . self::height . 'px;">
+<div class="easyDebug window" id="easyDebug_window" style="display: none; width: ' . self::width . 'px; height: ' . self::height . 'px;">
 	<div class="easyDebug menuButton active" id="easyDebug_button_console" onClick="easyDebug_toggleMenu(\'console\');" style="width: ' . (self::width / self::menuSize - 2) . 'px;">Console</div>
 	<div class="easyDebug menuButton" id="easyDebug_button_variables" onClick="easyDebug_toggleMenu(\'variables\');" style="width: ' . (self::width / self::menuSize - 2) . 'px;">Variables</div>
 			';
