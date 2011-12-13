@@ -79,19 +79,19 @@
 }
 .easyDebug.variables.varEntry.type {
 	/* Generic attributes */
-	width: 20px; height: 20px; line-height: 20px; float: left;
+	width: 20px; float: left;
 	color: #444444; background-color: #EEEEEE; border-right: 1px solid #CCCCCC;
 	text-align: center;
 }
 .easyDebug.variables.varEntry.name {
 	/* Generic attributes */
-	height: 20px; line-height: 20px; float: left;
+	float: left;
 	color: #444444; background-color: #EEEEEE; border-right: 1px solid #CCCCCC;
 	padding-left: 2px; text-align: left;
 }
 .easyDebug.variables.varEntry.value {
 	/* Generic attributes */
-	height: 20px; line-height: 20px; float: right;
+	float: right;
 	color: #444444; background-color: #EEEEEE; border-right: 0px solid #CCCCCC;
 	padding-left: 2px; text-align: left;
 }

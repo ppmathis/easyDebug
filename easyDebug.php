@@ -27,6 +27,9 @@
 		const colorObject = '#E0C0A0';		// [C ] Color for objects
 		const colorUnknown = '#E0E0E0';		// [C ] Color for unknown types
 	
+		public $test = '';
+		public $trash = 'haha';
+	
 		static private $instance = null;	// [SP] Singleton instance
 		private $memoryLimit = null;		// [ P] Memory limit
 		private $actualData = array();		// [ P] Actual debugger data
@@ -155,7 +158,7 @@
 				}
 			} else if (is_object($varData)) {
 				if(count((array) $varData) > 0) {
-					echo '<div class="easyDebug variables varEntry value"><a href="#" onClick="easyDebug_toggleVar(' . $this->actualBlock . '); return false;">Toggle object (' . count((array) $varData) . ' properties)</a></div>';
+					echo '<div class="easyDebug variables varEntry value" style="width: ' . (self::width / 2 - 2) . 'px; "><a href="#" onClick="easyDebug_toggleVar(' . $this->actualBlock . '); return false;">Toggle object (' . count((array) $varData) . ' properties)</a></div>';
 					echo '<div id="easyDebug_variableDetail_id' . $this->actualBlock . '" style="display: none;">';
 					$this->actualBlock++;
 					foreach($varData as $key => $value) {
