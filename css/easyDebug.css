@@ -1,0 +1,101 @@
+.easyDebug {
+	vertical-align: top; z-index: 100000;
+	font-family: Verdana; font-size: 11px; color: #000000;
+}
+.easyDebug.button {
+	/* Shadow */
+	-webkit-box-shadow: inset 5px 5px 20px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: inset 5px 5px 20px rgba(0, 0, 0, 0.15);
+	box-shadow: inset 5px 5px 20px rgba(0, 0, 0, 0.15);
+	/* Generic attributes */
+	position: absolute; top: 0px; left: 0px;
+	width: 100px; height: 20px; line-height: 20px;
+	color: #555555; background-color: #FFFFFF; border: 1px solid #CCCCCC;
+	-webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -o-user-select: none; user-select: none;
+	text-align: center; font-weight: bold;
+}
+.easyDebug.window {
+	/* Hidden */
+	/* display: none; */
+	position: absolute; top: 21px; left: 0px; overflow: hidden;
+	/* Generic attributes */
+	color: #222222; background-color: #EEEEEE; border: 1px solid #CCCCCC;
+}
+.easyDebug.menuWindow {
+	/* Generic attributes */
+	position: absolute; top: 21px; left: 0px;
+	color: #222222; background-color: #EEEEEE;
+}
+.easyDebug.menuButton {
+	/* Shadow */
+	-webkit-box-shadow: inset 5px 5px 20px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: inset 5px 5px 20px rgba(0, 0, 0, 0.15);
+	box-shadow: inset 5px 5px 20px rgba(0, 0, 0, 0.15);
+	/* Generic attributes */
+	position: relative; top: -1px; left: 0px; float: left;
+	height: 20px; line-height: 20px;
+	color: #444444; background-color: #EEEEEE; border: 1px solid #CCCCCC; 
+	-webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -o-user-select: none; user-select: none;
+	text-align: center; font-weight: bold;
+}
+.easyDebug.menuButton.active {
+	/* Generic attributes */
+	background-color: #DDDDDD;
+}
+.easyDebug.console.logFrame {
+	/* Generic attributes */
+	overflow: auto;
+}
+.easyDebug.console.logEntry {
+	/* Generic attributes */
+	height: 20px; line-height: 20px;
+	color: #444444; background-color: #EEEEEE; border-bottom: 1px solid #CCCCCC;
+	-webkit-user-select: text; -khtml-user-select: text; -moz-user-select: text; -o-user-select: text; user-select: text;
+	padding-left: 22px;
+}
+.easyDebug.console.logEntry.info { background: transparent url('../img/info.png') no-repeat 2px 2px; }
+.easyDebug.console.logEntry.warning { background: transparent url('../img/warning.png') no-repeat 2px 2px; }
+.easyDebug.console.logEntry.error { background: transparent url('../img/error.png') no-repeat 2px 2px; }
+.easyDebug.console.logSep {
+	/* Generic attributes */
+	height: 5px; line-height: 5px;
+	color: #444444; background-color: #DDDDDD; border-bottom: 1px solid #CCCCCC;
+	padding-left: 22px;
+}
+.easyDebug.variables.varFrame {
+	/* Generic attributes */
+	overflow: auto;
+}
+.easyDebug.variables.varEntry {
+	/* Generic attributes */
+	height: 20px; line-height: 20px;
+	color: #444444; background-color: #EEEEEE; border-bottom: 1px solid #CCCCCC;
+	-webkit-user-select: text; -khtml-user-select: text; -moz-user-select: text; -o-user-select: text; user-select: text;
+}
+.easyDebug.variables.varEntry.indent {
+	/* Generic attributes */
+	height: 20px; line-height: 20px; float: left;
+	border-bottom: 1px solid #EEEEEE;
+}
+.easyDebug.variables.varEntry.type {
+	/* Generic attributes */
+	width: 20px; height: 20px; line-height: 20px; float: left;
+	color: #444444; background-color: #EEEEEE; border-right: 1px solid #CCCCCC;
+	text-align: center;
+}
+.easyDebug.variables.varEntry.name {
+	/* Generic attributes */
+	height: 20px; line-height: 20px; float: left;
+	color: #444444; background-color: #EEEEEE; border-right: 1px solid #CCCCCC;
+	padding-left: 2px; text-align: left;
+}
+.easyDebug.variables.varEntry.value {
+	/* Generic attributes */
+	height: 20px; line-height: 20px; float: right;
+	color: #444444; background-color: #EEEEEE; border-right: 0px solid #CCCCCC;
+	padding-left: 2px; text-align: left;
+}
+.easyDebug.variables.varEntry.value a {
+	/* Generic attributes */
+	color: #444444; text-decoration: none; font-weight: bold;
+}
