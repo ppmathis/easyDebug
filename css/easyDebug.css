@@ -8,7 +8,7 @@
 	-moz-box-shadow: inset 5px 5px 20px rgba(0, 0, 0, 0.15);
 	box-shadow: inset 5px 5px 20px rgba(0, 0, 0, 0.15);
 	/* Generic attributes */
-	position: absolute; top: 0px; left: 0px;
+	position: fixed; top: 0px; left: 0px;
 	width: 100px; height: 20px; line-height: 20px;
 	color: #555555; background-color: #FFFFFF; border: 1px solid #CCCCCC;
 	-webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -o-user-select: none; user-select: none;
@@ -17,7 +17,7 @@
 .easyDebug.window {
 	/* Hidden */
 	/* display: none; */
-	position: absolute; top: 21px; left: 0px; overflow: hidden;
+	position: fixed; top: 21px; left: 0px; overflow: hidden;
 	/* Generic attributes */
 	color: #222222; background-color: #EEEEEE; border: 1px solid #CCCCCC;
 }
