@@ -1,7 +1,7 @@
 <?php
 	/*
 	--------------------------------------------------------------------------
-	-- easyDebug v1.1.2 beta
+	-- easyDebug v1.1.3 beta
 	-- © 2011 P. Mathis - pmathis@snapserv.net
 	--------------------------------------------------------------------------
 	-- License info (CC BY-NC-SA 3.0)
@@ -30,15 +30,15 @@
 	echo '</head><body>';
 	
 	// Some test functions
-	$test = 'Hallo Welt';
-	$debug->add('Nummer', 1337);
-	$debug->add('$test enthält \'Hallo Welt\'', $test);
-	$debug->add('Boolsches Zeugs', true);
-	$debug->add('Array', array(0 => 'huhu', 1 => 'haha', 2 => 'schlüssel', 3 => 4));
-	$debug->add('Der Debugger selbst...', $debug);
-	$debug->log('Testeintrag in der Logs');
-	$debug->warning('Achtung.... Da ist etwas ziemlich kritisch!');
-	$debug->error('E-PIG FAIL!');
+	$test = 'Hello World';
+	$debug->add('Testnumber', 1337);
+	$debug->add('$test contains \'Hello World\'', $test);
+	$debug->add('Boolean test', true);
+	$debug->add('Array example', array(0 => 'huhu', 1 => 'haha', 2 => 'schlüssel', 3 => 4));
+	$debug->add('Debugger instance (only private objects)', $debug);
+	$debug->log('Log example');
+	$debug->warning('Warnings should go here.');
+	$debug->error('Oh my god that was bad...');
 	$debug->show();
 	
 	// [EXAMPLE] End of html file

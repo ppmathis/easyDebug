@@ -1,7 +1,7 @@
 <?php
 	/*
 	--------------------------------------------------------------------------
-	-- easyDebug v1.1.2 beta
+	-- easyDebug v1.1.3 beta
 	-- © 2011 P. Mathis - pmathis@snapserv.net
 	--------------------------------------------------------------------------
 	-- License info (CC BY-NC-SA 3.0)
@@ -26,9 +26,6 @@
 		const colorArray = '#E0A0C0';		// [C ] Color for arrays
 		const colorObject = '#E0C0A0';		// [C ] Color for objects
 		const colorUnknown = '#E0E0E0';		// [C ] Color for unknown types
-	
-		public $test = '';
-		public $trash = 'haha';
 	
 		static private $instance = null;	// [SP] Singleton instance
 		private $memoryLimit = null;		// [ P] Memory limit
@@ -183,7 +180,7 @@
 		
 		final public function show() {
 			// Create syslog
-			$this->syslog('info', 'easyDebug v1.1.2 beta');
+			$this->syslog('info', 'easyDebug v1.1.3 beta');
 			$this->syslog('info', 'PHP version: ' . phpversion());
 			$this->syslog('info', 'Detected memory limit: ' . $this->memoryLimit);
 			$this->syslog('info', 'Peak memory usage: ' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'M');
