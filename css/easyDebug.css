@@ -83,6 +83,12 @@
 	color: #444444; background-color: #EEEEEE; border-right: 1px solid #CCCCCC;
 	text-align: center;
 }
+.easyDebug.variables.varEntry.oop {
+	/* Generic attributes */
+	width: 20px; float: left;
+	color: #444444; background-color: #EEEEEE; border-right: 1px solid #CCCCCC;
+	text-align: center;
+}
 .easyDebug.variables.varEntry.name {
 	/* Generic attributes */
 	float: left;

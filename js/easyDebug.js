@@ -1,4 +1,4 @@
-var easyDebug_activeMenu = 'console';
+var easyDebug_activeMenu;
 
 function easyDebug_toggle() {
 	$('#easyDebug_window').slideToggle('fast');

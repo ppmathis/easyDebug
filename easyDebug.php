@@ -1,7 +1,7 @@
 <?php
 	/*
 	--------------------------------------------------------------------------
-	-- easyDebug v1.1.3 beta
+	-- easyDebug v1.2.0 beta
 	-- © 2011 P. Mathis - pmathis@snapserv.net
 	--------------------------------------------------------------------------
 	-- License info (CC BY-NC-SA 3.0)
@@ -26,6 +26,10 @@
 		const colorArray = '#E0A0C0';		// [C ] Color for arrays
 		const colorObject = '#E0C0A0';		// [C ] Color for objects
 		const colorUnknown = '#E0E0E0';		// [C ] Color for unknown types
+		
+		const colorPublic = '#C0E0A0';		// [C ] Color for public properties
+		const colorProtected = '#E0E0A0';	// [C ] Color for protected properties
+		const colorPrivate = '#E0A0C0';		// [C ] Color for private properties
 	
 		static private $instance = null;	// [SP] Singleton instance
 		private $memoryLimit = null;		// [ P] Memory limit
@@ -48,10 +52,13 @@
 		}
 		
 		final public function add($varName, $varData) {
+			// Is variable empty?
+			if(!empty($var)) return;
+		
 			// Store variable data
 			$this->actualData[] = array(
 				'Name' => $varName,
-				'Data' => json_encode($varData)
+				'Data' => serialize($varData)
 			);
 			
 			// Array too big?
@@ -109,7 +116,7 @@
 			);
 		}
 		
-		final private function processVariable($varName, $varData, $indent = 0) {
+		final private function processVariable($varName, $varData, $indent = 0, $classtype = null) {
 			// Get type
 			echo '<div class="easyDebug variables varEntry indent" style="width: ' . $indent . 'px;"></div>';
 			if (is_numeric($varData)) {
@@ -124,6 +131,18 @@
 				echo '<div class="easyDebug variables varEntry type" style="background-color: ' . self::colorObject . ';">O</div>';
 			} else {
 				echo '<div class="easyDebug variables varEntry type" style="background-color: ' . self::colorUnknown . ';">U</div>';
+			}
+			
+			// Get classtype
+			if($classtype == 'public') {
+				echo '<div class="easyDebug variables varEntry oop" style="background-color: ' . self::colorPublic . ';">P</div>';
+				$indent += 21;
+			} else if($classtype == 'protected') {
+				echo '<div class="easyDebug variables varEntry oop" style="background-color: ' . self::colorProtected . ';">P</div>';
+				$indent += 21;
+			} else if($classtype == 'private') {
+				echo '<div class="easyDebug variables varEntry oop" style="background-color: ' . self::colorPrivate . ';">P</div>';
+				$indent += 21;
 			}
 			
 			// Print name
@@ -149,17 +168,38 @@
 					foreach($varData as $key => $value) {
 						$this->processVariable($key, $value, $indent + 20);
 					}
+					
 					echo '</div>';
 				} else {
 					echo '<div class="easyDebug variables varEntry value" style="width: ' . (self::width / 2 - 2) . 'px; ">(Empty array)</div>';
 				}
 			} else if (is_object($varData)) {
 				if(count((array) $varData) > 0) {
-					echo '<div class="easyDebug variables varEntry value" style="width: ' . (self::width / 2 - 2) . 'px; "><a href="#" onClick="easyDebug_toggleVar(' . $this->actualBlock . '); return false;">Toggle object (' . count((array) $varData) . ' properties)</a></div>';
+					echo '<div class="easyDebug variables varEntry value" style="width: ' . (self::width / 2 - 2) . 'px; "><a href="#" onClick="easyDebug_toggleVar(' . $this->actualBlock . '); return false;">Toggle object (Class ' . get_class($varData) . ', ' . count((array) $varData) . ' properties)</a></div>';
 					echo '<div id="easyDebug_variableDetail_id' . $this->actualBlock . '" style="display: none;">';
 					$this->actualBlock++;
+
+					/* Public variables */
 					foreach($varData as $key => $value) {
-						$this->processVariable($key, $value, $indent + 20);
+						$this->processVariable($key, $value, $indent + 20, 'public');
+					}
+					
+					/* Get dump */
+					ob_start();
+					var_dump($varData);
+					$dump = ob_get_contents();
+					ob_end_clean();
+					
+					/* Protected variables */
+					preg_match_all('~\["([A-Za-z0-9]*)":protected\]=>[ \t\r\n]*string\([0-9]*\) "(.*?)"~', $dump, $result, PREG_SET_ORDER);
+					foreach($result as $protectedVar) {
+						$this->processVariable($protectedVar[1], $protectedVar[2], $indent + 20, 'protected');
+					}
+					
+					/* Private variables */
+					preg_match_all('~\["([A-Za-z0-9]*)":"' . get_class($varData) . '":private\]=>[ \t\r\n]*string\([0-9]*\) "(.*?)"~', $dump, $result, PREG_SET_ORDER);
+					foreach($result as $privateVar) {
+						$this->processVariable($privateVar[1], $privateVar[2], $indent + 20, 'private');
 					}
 					echo '</div>';
 				} else {
@@ -180,13 +220,17 @@
 		
 		final public function show() {
 			// Create syslog
-			$this->syslog('info', 'easyDebug v1.1.3 beta');
+			$this->syslog('info', 'easyDebug v1.2.0 beta');
+			$this->syslog('info', 'Operating system: ' . php_uname());
+			$this->syslog('info', 'Server software: ' . $_SERVER['SERVER_SOFTWARE']);
 			$this->syslog('info', 'PHP version: ' . phpversion());
+			$this->syslog('info', 'MySQL client: ' . mysql_get_client_info());
+			$this->syslog('info', 'User agent: ' . $_SERVER['HTTP_USER_AGENT']);
 			$this->syslog('info', 'Detected memory limit: ' . $this->memoryLimit);
 			$this->syslog('info', 'Peak memory usage: ' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'M');
 
 			// Create debugger button
-			echo '<div class="easyDebug button" id="easyDebug_button" onClick="easyDebug_toggle();">easyDebug</div>';
+			echo '<div class="easyDebug button" id="easyDebug_button" onClick="easyDebug_toggle(); easyDebug_toggleMenu(\'console\');">easyDebug</div>';
 			// Create debugger menu
 			echo '
 <div class="easyDebug window" id="easyDebug_window" style="display: none; width: ' . self::width . 'px; height: ' . self::height . 'px;">
@@ -222,7 +266,7 @@
 				unset($this->compressedData[$key]);
 				foreach($uncompressed as $data) {
 					$varName = $data['Name'];
-					$varData = json_decode($data['Data']);
+					$varData = unserialize($data['Data']);
 					
 					// Show variable entry
 					echo '<div class="easyDebug variables varEntry">';
@@ -233,7 +277,7 @@
 			// Create variable list
 			foreach($this->actualData as $data) {
 				$varName = $data['Name'];
-				$varData = json_decode($data['Data']);
+				$varData = unserialize($data['Data']);
 				
 				// Show variable entry
 				echo '<div class="easyDebug variables varEntry" style="width: ' . (self::width) . 'px;">';
