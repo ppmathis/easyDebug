@@ -1,7 +1,7 @@
 <?php
 	/*
 	--------------------------------------------------------------------------
-	-- easyDebug v1.2.0 beta
+	-- easyDebug v1.2.1 beta
 	-- © 2011 P. Mathis - pmathis@snapserv.net
 	--------------------------------------------------------------------------
 	-- License info (CC BY-NC-SA 3.0)
@@ -51,16 +51,17 @@
 			return self::$instance;
 		}
 		
-		final public function add($varName, $varData) {
+		final public function add($varName, $varData, $hijackClass = false) {
 			// Is variable empty?
 			if(!empty($var)) return;
 		
 			// Store variable data
 			$this->actualData[] = array(
 				'Name' => $varName,
-				'Data' => serialize($varData)
+				'Data' => serialize($varData),
+				'Hijack' => $hijackClass
 			);
-			
+
 			// Array too big?
 			if(count($this->actualData) % self::compressionRate == 0) {
 				$serialized = serialize($this->actualData);
@@ -116,7 +117,7 @@
 			);
 		}
 		
-		final private function processVariable($varName, $varData, $indent = 0, $classtype = null) {
+		final private function processVariable($varName, $varData, $hijack = false, $indent = 0, $classtype = null) {
 			// Get type
 			echo '<div class="easyDebug variables varEntry indent" style="width: ' . $indent . 'px;"></div>';
 			if (is_numeric($varData)) {
@@ -166,7 +167,7 @@
 					echo '<div id="easyDebug_variableDetail_id' . $this->actualBlock . '" style="display: none;">';
 					$this->actualBlock++;
 					foreach($varData as $key => $value) {
-						$this->processVariable($key, $value, $indent + 20);
+						$this->processVariable($key, $value, false, $indent + 20);
 					}
 					
 					echo '</div>';
@@ -181,26 +182,30 @@
 
 					/* Public variables */
 					foreach($varData as $key => $value) {
-						$this->processVariable($key, $value, $indent + 20, 'public');
+						$this->processVariable($key, $value, $hijack, $indent + 20, 'public');
 					}
 					
-					/* Get dump */
-					ob_start();
-					var_dump($varData);
-					$dump = ob_get_contents();
-					ob_end_clean();
+					/* Hijack classes */
+					if($hijack === true) {
+						/* Get dump */
+						ob_start();
+						var_dump($varData);
+						$dump = ob_get_contents();
+						ob_end_clean();
 					
-					/* Protected variables */
-					preg_match_all('~\["([A-Za-z0-9]*)":protected\]=>[ \t\r\n]*string\([0-9]*\) "(.*?)"~', $dump, $result, PREG_SET_ORDER);
-					foreach($result as $protectedVar) {
-						$this->processVariable($protectedVar[1], $protectedVar[2], $indent + 20, 'protected');
+						/* Protected variables */
+						preg_match_all('~\["([A-Za-z0-9]*)":protected\]=>[ \t\r\n]*string\([0-9]*\) "(.*?)"~', $dump, $result, PREG_SET_ORDER);
+						foreach($result as $protectedVar) {
+							$this->processVariable($protectedVar[1], $protectedVar[2], $hijack, $indent + 20, 'protected');
+						}
+						
+						/* Private variables */
+						preg_match_all('~\["([A-Za-z0-9]*)":"' . get_class($varData) . '":private\]=>[ \t\r\n]*string\([0-9]*\) "(.*?)"~', $dump, $result, PREG_SET_ORDER);
+						foreach($result as $privateVar) {
+							$this->processVariable($privateVar[1], $privateVar[2], $hijack, $indent + 20, 'private');
+						}
 					}
 					
-					/* Private variables */
-					preg_match_all('~\["([A-Za-z0-9]*)":"' . get_class($varData) . '":private\]=>[ \t\r\n]*string\([0-9]*\) "(.*?)"~', $dump, $result, PREG_SET_ORDER);
-					foreach($result as $privateVar) {
-						$this->processVariable($privateVar[1], $privateVar[2], $indent + 20, 'private');
-					}
 					echo '</div>';
 				} else {
 					echo '<div class="easyDebug variables varEntry value" style="width: ' . (self::width / 2 - 2) . 'px; ">(Empty object)</div>';
@@ -220,7 +225,7 @@
 		
 		final public function show() {
 			// Create syslog
-			$this->syslog('info', 'easyDebug v1.2.0 beta');
+			$this->syslog('info', 'easyDebug v1.2.1 beta');
 			$this->syslog('info', 'Operating system: ' . php_uname());
 			$this->syslog('info', 'Server software: ' . $_SERVER['SERVER_SOFTWARE']);
 			$this->syslog('info', 'PHP version: ' . phpversion());
@@ -270,7 +275,7 @@
 					
 					// Show variable entry
 					echo '<div class="easyDebug variables varEntry">';
-					$this->processVariable($varName, $varData);
+					$this->processVariable($varName, $varData, $data['Hijack']);
 					echo '</div>';
 				}
 			}
@@ -281,7 +286,7 @@
 				
 				// Show variable entry
 				echo '<div class="easyDebug variables varEntry" style="width: ' . (self::width) . 'px;">';
-				$this->processVariable($varName, $varData);
+				$this->processVariable($varName, $varData, $data['Hijack']);
 				echo '</div>';
 			}
 			echo '</div></div>';

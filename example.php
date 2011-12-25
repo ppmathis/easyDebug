@@ -1,7 +1,7 @@
 <?php
 	/*
 	--------------------------------------------------------------------------
-	-- easyDebug v1.2.0 beta
+	-- easyDebug v1.2.1 beta
 	-- © 2011 P. Mathis - pmathis@snapserv.net
 	--------------------------------------------------------------------------
 	-- License info (CC BY-NC-SA 3.0)
@@ -35,6 +35,11 @@
 		protected $protectedVar1 = 'prot1';
 		public $publicVar1 = 'pub1';
 		
+		public $ar = array('huhu' => 'hihi', 'hoho' => 'haha');
+		public $in = 10;
+		
+		protected $prot = 10;
+		
 		function normal_function() {
 			return;
 		}
@@ -52,7 +57,8 @@
 	$debug->add('$test contains \'Hello World\'', $test);
 	$debug->add('Boolean test', true);
 	$debug->add('Array example', array(0 => 'huhu', 1 => 'haha', 2 => 'schlüssel', 3 => 4));
-	$debug->add('OOP stuff', $priv);
+	$debug->add('OOP stuff', $priv, true);
+	$debug->add('OOP stuff (no hijacking)', $priv);
 	$debug->log('Log example');
 	$debug->warning('Warnings should go here.');
 	$debug->error('Oh my god that was bad...');
