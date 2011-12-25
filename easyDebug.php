@@ -1,7 +1,7 @@
 <?php
 	/*
 	--------------------------------------------------------------------------
-	-- easyDebug v1.2.1 beta
+	-- easyDebug v1.2.2 beta
 	-- © 2011 P. Mathis - pmathis@snapserv.net
 	--------------------------------------------------------------------------
 	-- License info (CC BY-NC-SA 3.0)
@@ -225,7 +225,7 @@
 		
 		final public function show() {
 			// Create syslog
-			$this->syslog('info', 'easyDebug v1.2.1 beta');
+			$this->syslog('info', 'easyDebug v1.2.2 beta');
 			$this->syslog('info', 'Operating system: ' . php_uname());
 			$this->syslog('info', 'Server software: ' . $_SERVER['SERVER_SOFTWARE']);
 			$this->syslog('info', 'PHP version: ' . phpversion());
